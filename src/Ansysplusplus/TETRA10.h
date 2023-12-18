@@ -1,6 +1,7 @@
 #include "element.h"
 #include <string>
 #include <vector>
+#include <armadillo>
 
 class TETRA10 : public Element
 {

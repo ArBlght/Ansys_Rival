@@ -1,4 +1,5 @@
 #include "element.h"
+#include <armadillo>
 
 class TRI3 : public Element
 {

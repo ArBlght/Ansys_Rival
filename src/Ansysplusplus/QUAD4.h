@@ -1,6 +1,7 @@
-#include "Ansysplusplus/element.h"
+#include "element.h"
 #include <string>
 #include <vector>
+#include <armadillo>
 
 class QUAD4 : public Element
 {
