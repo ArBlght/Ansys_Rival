@@ -1,24 +1,35 @@
 #include <iostream>
-#include "Eigen/Dense"
+#include <vector>
+#include <armadillo>
+#include <memory>
 #include "mid.cpp" 
 #include "pid.cpp"
-#include "element.cpp"
 #include "node.cpp"
-#include <vector>
-using Eigen::MatrixXd;
+#include "element.cpp"
  
 int main()
 {
+    //mat and part creation
     Mid mat(1,10,100,0.3);
     Pid part(&mat,5);
-    Node n1(1,0,0,0);
-    Node n2(1,1,0,0);
-    Node n3(1,0,1,0);
-    std::vector<Node*> connect;
-    connect.push_back(&n1);
-    connect.push_back(&n2);
-    connect.push_back(&n3);
-    Element element(1,&mat,connect,1,3,9,3);
+    // node creation
+    arma::vec coor = {{1,2,3}}; 
+    arma::vec coor1 = {{4,5,6}}; 
+    Node n(1,coor);
+    Node n1(2,coor1);
+    Node n2(3,coor);
+    std::vector<Node*> connectivity = {&n,&n1,&n2};
+    arma::vec aff = n.get_coordinates();
+    aff.print("print");
+    (connectivity[1]->get_coordinates()).print();
+    // Element creation
+    Element e1(1u,&part,connectivity,3,3);
+    auto matrix = e1.get_coordinates(3);
+    matrix.print("coordinates matrix is : ");
+    
+    part.print();
+
+ 
 
     return 0;
 }
