@@ -1,13 +1,21 @@
 #pragma once
-#include "DOL.h"
+#include <iostream>
+#include <armadillo>
 
-class Node : public Dol
-{
+// In brief, class for creating a node
+
+class Node
+{  
+        unsigned nid;
+        arma::vec coordinates;
     public : 
-        int nid;
-        double x,y,z;
-        bool ddol;
-        bool has_dol() const{return ddol;};
-        void dol_done() {ddol = true;};
-        Node(int mnid, double mx, double my, double mz);
+        
+        const arma::vec& get_coordinates() const {return coordinates;}; 
+        unsigned get_id() const {return nid;};
+        Node(unsigned, arma::vec&);
+        Node();
+        
+        // test function to print information about node
+        void print_node() const { std::cout << "the node ID is : " << nid << std::endl;
+                                  coordinates.print("coordinates : ");};
 };

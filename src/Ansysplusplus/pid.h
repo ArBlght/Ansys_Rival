@@ -9,4 +9,5 @@ class Pid
     public :
         Mid* get_mid();
         Pid(Mid* m_mid, int m_npid);
+        void print() const;
 };

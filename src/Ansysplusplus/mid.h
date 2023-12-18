@@ -1,4 +1,5 @@
 #pragma once
+#include <armadillo>
 
 class Mid 
 {
@@ -7,11 +8,15 @@ class Mid
         double E;
         double nu;
         int nmid;
-    public : 
-        double getNmid() const {return nmid;};
-        double getDensity() const {return density;};
-        double getE() const {return E;};
-        double getNu() const {return nu;};
+        arma::sp_mat constitutive_matrix ;
+    public :
+        void initialise_constitutive_matrix(unsigned);
+        double get_nmid() const {return nmid;};
+        double get_density() const {return density;};
+        double get_e() const {return E;};
+        double get_nu() const {return nu;};
+        arma::mat get_stiffness() const;
+        arma::sp_mat get_constitutive_matrix() const {return constitutive_matrix;};
         
         Mid(int m_nmid, double m_density, double m_E, double m_nu);
         

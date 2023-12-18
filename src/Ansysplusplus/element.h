@@ -1,41 +1,35 @@
-#include "Node.h"
-#include "DOL.h"
+#include "node.h"
 #include "pid.h"
 #include "mid.h"
+#include <armadillo>
+#include <memory>
 
-#include "../Eigen/Sparse"
+// In brief, element is a base class for oter element classes : TRI3, QUAD4 ..
 
-using MatrixDyna = Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic>;
-using VectorDyna = Eigen::Matrix<double, Eigen::Dynamic,1>;
-
-class Element  
+class Element : public Node
 {
     protected :
-        enum ElementType
-        {
-            TRI3,QUAD4,QUAD8,HEX8,HEX20,TETRA10,
-        };
-        MatrixDyna Ke;
-        std::vector<Node*>      connectivity;
-        Mid* mid;
-        VectorDyna Fe;
-        int type;
-        const int nnodes;
-        const int ndols;
-        const int dimensions; //dimension is ElementType dependante
-        const int eid;
-        void setupCoord(); //useless function will create a Coordinate table
-        void setupDol();
-
+        arma::mat Ke;
+        std::vector<Node*>    connectivity;
+        Pid* pid;
+        arma::vec Fe;
+        const unsigned n_nodes;
+        const unsigned n_dim;
+        const unsigned eid;
+       // arma::mat get_coordinates(const unsigned) const;
+        
     public : 
-        virtual void CalculateKe();
-        Element(const int               eid,
-                Mid*                    mid,
-                std::vector<Node*>      connectivity, // connectivity table get from mesh
-                int             type,
-                const int               nnodes,
-                const int               ndols,
-                const int               dimensions);
+
+        arma::mat get_coordinates(const unsigned) const;
+        unsigned get_dof_number() const {return n_dim;};
+        unsigned get_node_number() const {return n_nodes;};
+        
+        virtual void CalculateKe() {};
+        Element(const unsigned               , //eid
+                Pid*                         , //pid
+                std::vector<Node*>           , // connectivity table get from mesh
+                const unsigned               , //nnodes
+                const unsigned               ); //ndim
 
 
 };

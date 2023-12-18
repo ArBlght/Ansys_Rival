@@ -1,39 +1,29 @@
 #include "Ansysplusplus/element.h"
+#include <armadillo>
 #include <memory>
 
-void Element::setupDol()
+
+arma::mat Element::get_coordinates(const unsigned n_dim) const
 {
-    int i=0;
-    for (i=0; i<nnodes; i++)
-    {
-        if(!connectivity[i]->has_dol())
-        {
-            // give one Degree of liberty for each dimension
-            auto x = std::make_unique<Dol>();
-            auto y = std::make_unique<Dol>();
-            connectivity[i]->dol_done();
-            if (dimensions == 3)
-            {
-                auto z = std::make_unique<Dol>();
-            }
-        }
+    arma::mat elem_coord(n_nodes, n_dim,arma::fill::zeros);
+
+    for (unsigned i=0; i<n_nodes; ++i)
+    {        
+        auto &coord = connectivity[i]->get_coordinates();
+        for (unsigned j=0; j<n_dim; ++j) elem_coord(i,j) = coord(j);
     }
-    unsigned int value = (connectivity[2]->get_dol_counter_glob());
-    std::cout<< value <<std::endl;
+    
+    return elem_coord;
 }
 
-Element::Element(const int              m_eid,
-                 Mid                    *m_mid,
-                 std::vector<Node *>    m_connectivity,
-                 int            m_type,
-                 const int              m_nnodes,
-                 const int              m_ndols,
-                 const int              m_dimensions):
-                 eid{m_eid},
-                 mid{m_mid},
-                 connectivity{m_connectivity},
-                 type{m_type},
-                 nnodes{m_nnodes},
-                 ndols{m_ndols},
-                 dimensions{m_dimensions}
+Element::Element(const unsigned              m_eid,
+                 Pid                        *m_pid,
+                 std::vector<Node*>          m_connectivity,
+                 const unsigned              m_nnodes,
+                 const unsigned              m_ndim):
+                 eid                        (m_eid),
+                 pid                        (m_pid),
+                 connectivity               (m_connectivity),
+                 n_nodes                    (m_nnodes),
+                 n_dim                      (m_ndim)
                  {};

@@ -1,15 +1,11 @@
 #include "Ansysplusplus/element.h"
-#include <Eigen/Sparse>
 #include <string>
 #include <vector>
 
-class Element: 
+class QUAD4 : public Element
 {
     protected: 
-        enum class ElementType
-        {
-            TRI3,QUAD4,HEX8,TETRA10,HEX20,
-        };
+        static constexpr unsigned n_nodes = 4, n_dim = 2, n_size = n_nodes*n_dim;
     public: 
 
-}
+};
