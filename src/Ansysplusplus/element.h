@@ -6,7 +6,7 @@
 
 // In brief, element is a base class for oter element classes : TRI3, QUAD4 ..
 
-class Element : public Node
+class Element 
 {
     protected :
         arma::mat Ke;
@@ -16,8 +16,6 @@ class Element : public Node
         const unsigned n_nodes;
         const unsigned n_dim;
         const unsigned eid;
-       // arma::mat get_coordinates(const unsigned) const;
-        
     public : 
 
         arma::mat get_coordinates(const unsigned) const;
